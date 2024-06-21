@@ -16,3 +16,7 @@ class CheckoutApp extends StatelessWidget {
     );
   }
 }
+
+// PaymentIntentObject  Create payment intent (amount , currrency)
+// init payment sheet ( payment intent client secret)
+// PresentPaymentSheet() => show payment sheet
