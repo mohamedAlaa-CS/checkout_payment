@@ -23,3 +23,9 @@ class CheckoutApp extends StatelessWidget {
 // PaymentIntentObject  Create payment intent (amount , currrency)
 // init payment sheet ( payment intent client secret)
 // PresentPaymentSheet() => show payment sheet
+
+//? when you want save card in stripe
+//PaymentntIntentModel create payment intent(amount , currency, custormerId)
+// createEphemeralKey ( stripeVersion, customerID)
+// initPaymentSheet (SetupPaymentSheetParameters(merchantDisplayName ,IntentClientSecret, EphemeralKeySecret))
+// PresentPaymentSheet() => show payment sheet
