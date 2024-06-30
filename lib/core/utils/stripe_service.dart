@@ -60,10 +60,11 @@ class StripeService {
         url: 'https://api.stripe.com/v1/ephemeral_keys',
         data: {'customer': customerId},
         token: ApiKey.seckretKey,
-        contentType: Headers.formUrlEncodedContentType,
+        //contentType: Headers.formUrlEncodedContentType,
         headers: {
           'Authorization': 'Bearer ${ApiKey.seckretKey}',
           'Stripe-Version': '2024-04-10',
+          'Content-Type': Headers.formUrlEncodedContentType
         });
 
     return EphameralKeyModel.fromJson(response.data);
