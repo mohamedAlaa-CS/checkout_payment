@@ -7,15 +7,14 @@ abstract class ApiService {
     required dynamic data,
     required String token,
     String? contentType,
+    Map<String, dynamic>? headers,
   }) async {
     var response = _dio.post(
       url,
       data: data,
       options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': contentType
-        },
+        headers: headers ??
+            {'Authorization': 'Bearer $token', 'Content-Type': contentType},
       ),
     );
     return response;
