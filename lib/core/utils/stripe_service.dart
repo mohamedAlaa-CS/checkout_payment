@@ -1,4 +1,5 @@
 import 'package:checkout_payment_ui/Features/checkout/data/models/ephameral_key_model/ephameral_key_model.dart';
+import 'package:checkout_payment_ui/Features/checkout/data/models/initi_payment_sheet_input_model.dart';
 import 'package:checkout_payment_ui/Features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:checkout_payment_ui/Features/checkout/data/models/payment_intent_model/payment_intent_model.dart';
 import 'package:checkout_payment_ui/core/utils/api_key.dart';
@@ -19,10 +20,14 @@ class StripeService {
     return PaymentIntentModel.fromJson(response.data);
   }
 
-  Future initPaymentSheet({required String paymentIntentClientSecret}) async {
+  Future initPaymentSheet(
+      {required InitiPaymentSheetInputModel initpaymentsheetInputModel}) async {
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
-        paymentIntentClientSecret: paymentIntentClientSecret,
+        paymentIntentClientSecret: initpaymentsheetInputModel.clientSecret,
+        customerId: initpaymentsheetInputModel.customerId,
+        customerEphemeralKeySecret:
+            initpaymentsheetInputModel.ephemeralKeySecret,
         merchantDisplayName: 'Alaa',
       ),
     );
@@ -36,9 +41,16 @@ class StripeService {
       {required PaymentIntentInputModel paymentIntentInputModel}) async {
     var paymentIntentModel =
         await createPaymentIntetnt(paymentIntentInputModel);
-    await initPaymentSheet(
-      paymentIntentClientSecret: paymentIntentModel.clientSecret!,
+    var ephameralKeyModel = await createEphameralKey(
+      customerId: paymentIntentInputModel.customerId,
     );
+    var initiPaymentSheetInputModel = InitiPaymentSheetInputModel(
+      customerId: paymentIntentInputModel.customerId,
+      ephemeralKeySecret: ephameralKeyModel.secret!,
+      clientSecret: paymentIntentModel.clientSecret!,
+    );
+    await initPaymentSheet(
+        initpaymentsheetInputModel: initiPaymentSheetInputModel);
     await displayPaymentSheet();
   }
 
